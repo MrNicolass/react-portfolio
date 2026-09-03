@@ -1,36 +1,89 @@
+"use client";
+
+import Link from "next/link";
 import { portfolio } from "@/data/portfolio";
+import { ArrowUpRightIcon } from "./icons";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
 export default function Hero() {
+  const scroll = useSmoothScroll();
+
   return (
     <section
       id="inicio"
-      className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl flex-col justify-center px-4 py-24 sm:px-6"
+      className="relative flex min-h-svh items-center overflow-hidden"
     >
-      <p className="mb-4 font-mono text-sm text-foreground/60">
-        Olá, eu sou
-      </p>
-      <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-        {portfolio.name}
-      </h1>
-      <h2 className="mt-3 text-2xl font-semibold text-foreground/80 sm:text-3xl">
-        {portfolio.role}
-      </h2>
-      <p className="mt-6 max-w-2xl text-lg text-foreground/70">
-        {portfolio.tagline}
-      </p>
-      <div className="mt-10 flex flex-wrap gap-4">
-        <a
-          href="#projetos"
-          className="rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-80"
+      {/* Fundo: grade + brilhos */}
+      <div aria-hidden="true" className="absolute inset-0 hero-grid" />
+      <div
+        aria-hidden="true"
+        className="absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-500/25 via-violet-500/20 to-fuchsia-500/25 blur-3xl"
+      />
+
+      <div className="relative mx-auto w-full max-w-5xl px-4 py-28 sm:px-6">
+        <div
+          className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-4 py-1.5 text-xs font-medium text-foreground/80 dark:border-white/15 dark:bg-white/5"
+          style={{ animationDelay: "0ms" }}
         >
-          Ver projetos
-        </a>
-        <a
-          href="#contato"
-          className="rounded-full border border-black/15 px-6 py-3 text-sm font-semibold transition-colors hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/10"
+          <span className="relative flex size-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+          </span>
+          Disponível para novos projetos
+        </div>
+
+        <p
+          className="animate-fade-up mt-8 font-mono text-sm text-foreground/60"
+          style={{ animationDelay: "100ms" }}
         >
-          Fale comigo
-        </a>
+          Olá, eu sou
+        </p>
+        <h1
+          className="animate-fade-up mt-3 text-5xl font-bold tracking-tight sm:text-7xl"
+          style={{ animationDelay: "180ms" }}
+        >
+          <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
+            {portfolio.name}
+          </span>
+        </h1>
+        <h2
+          className="animate-fade-up mt-4 text-2xl font-semibold text-foreground/80 sm:text-3xl"
+          style={{ animationDelay: "260ms" }}
+        >
+          {portfolio.role}
+        </h2>
+        <p
+          className="animate-fade-up mt-6 max-w-2xl text-lg leading-relaxed text-foreground/70"
+          style={{ animationDelay: "340ms" }}
+        >
+          {portfolio.tagline}
+        </p>
+        <div
+          className="animate-fade-up mt-10 flex flex-wrap items-center gap-4"
+          style={{ animationDelay: "420ms" }}
+        >
+          <Link
+            href="#projetos"
+            onClick={(e) => {
+              e.preventDefault();
+              scroll("#projetos");
+            }}
+            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-lg shadow-black/10 transition-all hover:-translate-y-0.5 hover:shadow-xl dark:shadow-white/5"
+          >
+            Ver projetos
+            <ArrowUpRightIcon className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+          <Link
+            href="#contato"
+            onClick={(e) => {
+              e.preventDefault();
+              scroll("#contato");
+            }}
+            className="rounded-full border border-black/15 px-6 py-3 text-sm font-semibold transition-colors hover:border-black/30 hover:bg-black/5 dark:border-white/15 dark:hover:border-white/30 dark:hover:bg-white/10"
+          >
+            Fale comigo
+          </Link>
+        </div>
       </div>
     </section>
   );
