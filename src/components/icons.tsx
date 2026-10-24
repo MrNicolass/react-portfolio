@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import { useId, type SVGProps } from "react";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
@@ -141,5 +141,103 @@ export function XIcon(props: IconProps) {
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </Svg>
+  );
+}
+
+export function LogoIcon({ "aria-label": ariaLabel, ...props }: IconProps) {
+  const rawId = useId();
+  const gradientId = `nc-logo-${rawId.replace(/:/g, "")}`;
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      role="img"
+      aria-label={ariaLabel ?? "NC"}
+      {...props}
+    >
+      <defs>
+        <linearGradient
+          id={gradientId}
+          gradientUnits="userSpaceOnUse"
+          x1="6"
+          y1="14"
+          x2="58"
+          y2="50"
+        >
+          <stop offset="0" stopColor="#6366f1" />
+          <stop offset="0.5" stopColor="#8b5cf6" />
+          <stop offset="1" stopColor="#d946ef" />
+        </linearGradient>
+      </defs>
+      <rect
+        width="64"
+        height="64"
+        rx="16"
+        className="fill-[#fafafa] dark:fill-[#09090b]"
+      />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="63"
+        height="63"
+        rx="15.5"
+        fill="none"
+        className="stroke-black/10 dark:stroke-white/10"
+      />
+      <g
+        fill="none"
+        stroke={`url(#${gradientId})`}
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M8.5 43V21L24.5 43V21" />
+        <path d="M52.9 24.9A11 11 0 1 0 52.9 39.1" />
+      </g>
+    </svg>
+  );
+}
+
+export function BrazilFlagIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="size-4 shrink-0 rounded-sm"
+      {...props}
+    >
+      <rect width="24" height="24" rx="3" fill="#009c3b" />
+      <polygon points="12,4 21,12 12,20 3,12" fill="#ffdf00" />
+      <circle cx="12" cy="12" r="4.2" fill="#002776" />
+      <path
+        d="M8.2 12.8a4.2 4.2 0 0 1 7.4-1.6"
+        stroke="#ffffff"
+        strokeWidth="0.9"
+        fill="none"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function USFlagIcon(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="size-4 shrink-0 rounded-sm"
+      {...props}
+    >
+      <rect width="24" height="24" rx="3" fill="#ffffff" />
+      <path d="M0 2.5h24v2H0zm0 3.7h24v2H0zm0 3.7h24v2H0zm0 3.7h24v2H0zm0 3.7h24v2H0zm0 3.7h24v2H0z" fill="#b22234" />
+      <rect width="11" height="11" rx="1.5" fill="#3c3b6e" />
+      <circle cx="3" cy="3" r="0.75" fill="#ffffff" />
+      <circle cx="6" cy="3" r="0.75" fill="#ffffff" />
+      <circle cx="9" cy="3" r="0.75" fill="#ffffff" />
+      <circle cx="4.5" cy="5.5" r="0.75" fill="#ffffff" />
+      <circle cx="7.5" cy="5.5" r="0.75" fill="#ffffff" />
+      <circle cx="3" cy="8" r="0.75" fill="#ffffff" />
+      <circle cx="6" cy="8" r="0.75" fill="#ffffff" />
+      <circle cx="9" cy="8" r="0.75" fill="#ffffff" />
+    </svg>
   );
 }

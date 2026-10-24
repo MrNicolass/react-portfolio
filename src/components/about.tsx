@@ -1,4 +1,5 @@
-import { portfolio } from "@/data/portfolio";
+import type { profile } from "@/data/portfolio";
+import type { Dictionary } from "@/i18n/dictionaries";
 import Reveal from "./reveal";
 import SectionHeading from "./section-heading";
 import {
@@ -10,26 +11,25 @@ import {
   MapPinIcon,
 } from "./icons";
 
-const highlights = [
-  "Código limpo e testável",
-  "Foco em performance e acessibilidade",
-  "Do design à deploy",
-];
+type AboutProps = {
+  profile: typeof profile;
+  content: Dictionary["about"];
+};
 
-export default function About() {
+export default function About({ profile, content }: AboutProps) {
   return (
     <section id="sobre" className="py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <SectionHeading index="01" title="Sobre mim" />
+        <SectionHeading index="01" title={content.title} />
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <Reveal delay={100}>
             <div className="space-y-5 text-foreground/70 sm:text-lg sm:leading-relaxed">
-              {portfolio.about.map((paragraph) => (
+              {content.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
               <ul className="space-y-3 pt-2">
-                {highlights.map((item) => (
+                {content.highlights.map((item) => (
                   <li key={item} className="flex items-center gap-3 text-base">
                     <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-violet-500/15 text-violet-600 dark:text-violet-400">
                       <CheckIcon className="size-3" />
@@ -44,26 +44,26 @@ export default function About() {
           <Reveal delay={200}>
             <div className="rounded-2xl border border-black/10 bg-white/60 p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
-                Informações
+                {content.information}
               </h3>
               <ul className="mt-4 space-y-3 text-sm">
                 <li className="flex items-center gap-3 text-foreground/80">
                   <MapPinIcon className="size-4 shrink-0 text-violet-500" />
-                  {portfolio.location}
+                  {content.location}
                 </li>
                 <li>
                   <a
-                    href={`mailto:${portfolio.email}`}
+                    href={`mailto:${profile.email}`}
                     className="flex items-center gap-3 text-foreground/80 transition-colors hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <MailIcon className="size-4 shrink-0 text-violet-500" />
-                    {portfolio.email}
+                    {profile.email}
                   </a>
                 </li>
               </ul>
               <div className="mt-6 flex gap-3 border-t border-black/10 pt-5 dark:border-white/10">
                 <a
-                  href={portfolio.social.github}
+                  href={profile.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -72,7 +72,7 @@ export default function About() {
                   <GithubIcon className="size-4" />
                 </a>
                 <a
-                  href={portfolio.social.linkedin}
+                  href={profile.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -84,7 +84,7 @@ export default function About() {
                   href="#contato"
                   className="ml-auto inline-flex items-center gap-1 text-sm font-medium text-violet-600 transition-colors hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300"
                 >
-                  Contato
+                  {content.contact}
                   <ArrowUpRightIcon className="size-3.5" />
                 </a>
               </div>

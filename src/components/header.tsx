@@ -2,22 +2,38 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { portfolio } from "@/data/portfolio";
+import { useRouter } from "next/navigation";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import ThemeToggle from "./theme-toggle";
-import { MenuIcon, XIcon } from "./icons";
+import { BrazilFlagIcon, MenuIcon, USFlagIcon, XIcon } from "./icons";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
-const navLinks = [
-  { href: "#sobre", label: "Sobre" },
-  { href: "#projetos", label: "Projetos" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contato", label: "Contato" },
-];
+type HeaderProps = {
+  locale: Locale;
+  name: string;
+  navigation: Dictionary["navigation"];
+  theme: Dictionary["theme"];
+};
 
-export default function Header() {
+export default function Header({
+  locale,
+  name,
+  navigation,
+  theme,
+}: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
   const scroll = useSmoothScroll();
+  const alternateLocale: Locale = locale === "pt-BR" ? "en" : "pt-BR";
+
+  const navLinks = [
+    { href: "#sobre", label: navigation.about },
+    { href: "#projetos", label: navigation.projects },
+    { href: "#skills", label: navigation.skills },
+    { href: "#contato", label: navigation.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -31,6 +47,10 @@ export default function Header() {
     scroll(href);
   };
 
+  const switchLocale = () => {
+    router.push(`/${alternateLocale}${window.location.hash}`);
+  };
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -42,13 +62,13 @@ export default function Header() {
       <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <Link
           href="#inicio"
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
             scroll("#inicio");
           }}
           className="text-lg font-bold tracking-tight transition-opacity hover:opacity-80"
         >
-          {portfolio.name.split(" ")[0]}
+          {name.split(" ")[0]}
           <span className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">
             .
           </span>
@@ -60,8 +80,8 @@ export default function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={(event) => {
+                    event.preventDefault();
                     handleNavClick(link.href);
                   }}
                   className="rounded-full px-3 py-2 text-foreground/70 transition-colors hover:bg-black/5 hover:text-foreground dark:hover:bg-white/10"
@@ -72,12 +92,32 @@ export default function Header() {
             ))}
           </ul>
 
-          <ThemeToggle />
+          <button
+            type="button"
+            onClick={switchLocale}
+            aria-label={navigation.changeLanguage}
+            title={navigation.languageSwitcher}
+            className="flex items-center gap-1.5 rounded-full border border-black/10 px-2.5 py-1.5 text-xs font-semibold text-foreground/70 transition-colors hover:bg-black/5 hover:text-foreground dark:border-white/15 dark:hover:bg-white/10"
+          >
+            {locale === "pt-BR" ? (
+              <>
+                <USFlagIcon />
+                <span>EN</span>
+              </>
+            ) : (
+              <>
+                <BrazilFlagIcon />
+                <span>PT</span>
+              </>
+            )}
+          </button>
+
+          <ThemeToggle labels={theme} />
 
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? navigation.closeMenu : navigation.openMenu}
             aria-expanded={open}
             className="flex size-9 items-center justify-center rounded-full border border-black/10 text-foreground/70 transition-colors hover:bg-black/5 hover:text-foreground sm:hidden dark:border-white/15 dark:hover:bg-white/10"
           >
@@ -97,8 +137,8 @@ export default function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={(event) => {
+                    event.preventDefault();
                     handleNavClick(link.href);
                   }}
                   className="block rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-black/5 hover:text-foreground dark:hover:bg-white/10"

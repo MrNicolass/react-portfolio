@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NC">
+  <defs>
+    <linearGradient id="nc-g" gradientUnits="userSpaceOnUse" x1="6" y1="14" x2="58" y2="50">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.5" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+
+  <!-- fundo -->
+  <rect width="64" height="64" rx="16" fill="#09090b"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="15.5" fill="none" stroke="#fff" stroke-opacity="0.1"/>
+
+  <!-- N e C desenhados como traços (não dependem de fonte) -->
+  <g fill="none" stroke="url(#nc-g)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8.5 43V21L24.5 43V21"/>
+    <path d="M52.9 24.9A11 11 0 1 0 52.9 39.1"/>
+  </g>
+</svg>

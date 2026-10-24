@@ -1,12 +1,25 @@
-import { portfolio, type Project } from "@/data/portfolio";
+import type { Project } from "@/data/portfolio";
+import type { Dictionary } from "@/i18n/dictionaries";
 import Reveal from "./reveal";
 import SectionHeading from "./section-heading";
 import { ArrowUpRightIcon, CodeIcon } from "./icons";
 
-function ProjectCard({ project }: { project: Project }) {
+type LocalizedProject = Project & Dictionary["projects"]["items"][number];
+
+type ProjectsProps = {
+  content: Dictionary["projects"];
+  projects: readonly LocalizedProject[];
+};
+
+function ProjectCard({
+  project,
+  labels,
+}: {
+  project: LocalizedProject;
+  labels: Pick<Dictionary["projects"], "demo" | "source">;
+}) {
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/60 hover:shadow-xl hover:shadow-violet-500/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-violet-400/40">
-      {/* Brilho no topo ao passar o mouse */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -36,7 +49,7 @@ function ProjectCard({ project }: { project: Project }) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-violet-600 transition-colors hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300"
           >
-            Demo
+            {labels.demo}
             <ArrowUpRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         )}
@@ -48,7 +61,7 @@ function ProjectCard({ project }: { project: Project }) {
             className="inline-flex items-center gap-1 text-violet-600 transition-colors hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300"
           >
             <CodeIcon className="size-3.5" />
-            Código
+            {labels.source}
           </a>
         )}
       </div>
@@ -56,19 +69,19 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-export default function Projects() {
+export default function Projects({ content, projects }: ProjectsProps) {
   return (
     <section id="projetos" className="py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <SectionHeading
           index="02"
-          title="Projetos"
-          description="Alguns trabalhos dos quais tenho orgulho."
+          title={content.title}
+          description={content.description}
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {portfolio.projects.map((project, i) => (
-            <Reveal key={project.title} delay={i * 100} className="h-full">
-              <ProjectCard project={project} />
+          {projects.map((project, index) => (
+            <Reveal key={project.title} delay={index * 100} className="h-full">
+              <ProjectCard project={project} labels={content} />
             </Reveal>
           ))}
         </div>
