@@ -8,6 +8,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import ThemeToggle from "./theme-toggle";
 import { BrazilFlagIcon, MenuIcon, USFlagIcon, XIcon } from "./icons";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import { setStoredLocale } from "@/lib/locale";
 
 type HeaderProps = {
   locale: Locale;
@@ -35,6 +36,10 @@ export default function Header({
     { href: "#contato", label: navigation.contact },
   ];
 
+  // Current locale's flag and label (fixed: was showing alternate locale's flag)
+  const currentFlag = locale === "pt-BR" ? <BrazilFlagIcon /> : <USFlagIcon />;
+  const currentLabel = locale === "pt-BR" ? "PT" : "EN";
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -48,6 +53,7 @@ export default function Header({
   };
 
   const switchLocale = () => {
+    setStoredLocale(alternateLocale);
     router.push(`/${alternateLocale}${window.location.hash}`);
   };
 
@@ -99,17 +105,8 @@ export default function Header({
             title={navigation.languageSwitcher}
             className="flex items-center gap-1.5 rounded-full border border-black/10 px-2.5 py-1.5 text-xs font-semibold text-foreground/70 transition-colors hover:bg-black/5 hover:text-foreground dark:border-white/15 dark:hover:bg-white/10"
           >
-            {locale === "pt-BR" ? (
-              <>
-                <USFlagIcon />
-                <span>EN</span>
-              </>
-            ) : (
-              <>
-                <BrazilFlagIcon />
-                <span>PT</span>
-              </>
-            )}
+            {currentFlag}
+            <span>{currentLabel}</span>
           </button>
 
           <ThemeToggle labels={theme} />
