@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 127.0.0.1",
     "build": "next build",
-    "start": "next start -p 9001",
+    "start": "next start -H 127.0.0.1 -p 9001",
     "lint": "eslint ."
   },
   "dependencies": {
     "geist": "^1.9.2",
-    "next": "16.3.3",
+    "next": "16.4.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -20,7 +20,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.3.3",
+    "eslint-config-next": "16.4.6",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }
