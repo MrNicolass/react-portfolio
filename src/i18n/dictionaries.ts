@@ -1,20 +1,45 @@
+import type {
+  EducationId,
+  ExperienceId,
+  ProjectSlug,
+  SkillGroupId,
+} from "@/data/portfolio";
 import type { Locale } from "./config";
+
+export type ProjectCopy = {
+  title: string;
+  tagline: string;
+  summary: string;
+  problem: string;
+  role: string;
+  highlights: readonly string[];
+  outcome: string;
+  imageAlt: string;
+  galleryAlts: readonly string[];
+  stats: Record<string, string>;
+};
 
 export type Dictionary = {
   metadata: {
     title: string;
     description: string;
+    ogAlt: string;
+    keywords: readonly string[];
   };
   skipLink: string;
   navigation: {
+    home: string;
     about: string;
+    experience: string;
     projects: string;
     skills: string;
+    activity: string;
     contact: string;
     openMenu: string;
     closeMenu: string;
     languageSwitcher: string;
     changeLanguage: string;
+    primary: string;
   };
   theme: {
     enableLight: string;
@@ -23,12 +48,16 @@ export type Dictionary = {
     dark: string;
   };
   hero: {
+    status: string;
     availability: string;
     greeting: string;
     role: string;
     tagline: string;
+    facts: readonly { key: string; value: string }[];
     viewProjects: string;
     contact: string;
+    downloadCv: string;
+    scrollHint: string;
   };
   about: {
     title: string;
@@ -36,53 +65,157 @@ export type Dictionary = {
     highlights: readonly string[];
     information: string;
     location: string;
+    languages: string;
     contact: string;
+  };
+  experience: {
+    title: string;
+    description: string;
+    present: string;
+    education: string;
+    grade: string;
+    roles: Record<ExperienceId, { role: string; summary: string; points: readonly string[] }>;
+    schools: Record<EducationId, string>;
   };
   projects: {
     title: string;
     description: string;
-    demo: string;
-    source: string;
-    items: readonly {
-      title: string;
-      description: string;
-    }[];
+    featured: string;
+    caseStudy: string;
+    repository: string;
+    live: string;
+    filterLabel: string;
+    filterAll: string;
+    filtering: string;
+    items: Record<ProjectSlug, ProjectCopy>;
+  };
+  caseStudy: {
+    back: string;
+    problem: string;
+    role: string;
+    highlights: string;
+    outcome: string;
+    stack: string;
+    gallery: string;
+    facts: string;
+    year: string;
+    next: string;
   };
   skills: {
     title: string;
     description: string;
-    categories: {
-      frontend: string;
-      backend: string;
-      tools: string;
-    };
+    hint: string;
+    usedIn: string;
+    categories: Record<SkillGroupId, string>;
+  };
+  activity: {
+    title: string;
+    description: string;
+    alt: string;
+    profile: string;
+  };
+  homelab: {
+    title: string;
+    description: string;
+    uptime: string;
+    cpu: string;
+    memory: string;
+    energy: string;
+    today: string;
+    month: string;
+    updated: string;
+    offline: string;
+    days: string;
+    hours: string;
+    minutes: string;
+    project: string;
   };
   contact: {
     title: string;
     description: string;
+    copy: string;
+    copied: string;
+    copyFailed: string;
+    downloadCv: string;
+  };
+  palette: {
+    open: string;
+    title: string;
+    placeholder: string;
+    empty: string;
+    groups: { navigate: string; projects: string; actions: string; links: string };
+    actions: {
+      toggleTheme: string;
+      switchLanguage: string;
+      copyEmail: string;
+      downloadCv: string;
+    };
+    hint: string;
+  };
+  cv: {
+    title: string;
+    description: string;
+    print: string;
+    download: string;
+    otherLanguage: string;
+    back: string;
+    summary: string;
+    experience: string;
+    education: string;
+    skills: string;
+    projects: string;
+    languages: string;
+    languageList: string;
+    headline: string;
+    summaryText: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    home: string;
+    projects: string;
   };
   footer: {
     rightsReserved: string;
     backToTop: string;
+    builtWith: string;
+    shortcut: string;
   };
 };
 
 const ptBR = {
   metadata: {
-    title: "Nicolas Conte | Portfólio",
+    title: "Nicolas Conte | Desenvolvedor Full Stack",
     description:
-      "Portfólio de Nicolas Conte — desenvolvedor full stack especializado em React, Java, Next.js e TypeScript.",
+      "Desenvolvedor Full Stack em P&D na WEG. React, TypeScript, Java e Python, com 5 anos de trajetória entre infraestrutura, suporte, dados e desenvolvimento.",
+    ogAlt: "Nicolas Conte, desenvolvedor Full Stack. React, Java, Python e IoT.",
+    keywords: [
+      "Nicolas Conte",
+      "desenvolvedor full stack",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "IoT",
+      "portfólio",
+    ],
   },
   skipLink: "Pular para o conteúdo",
   navigation: {
+    home: "Início",
     about: "Sobre",
+    experience: "Experiência",
     projects: "Projetos",
     skills: "Skills",
+    activity: "Atividade",
     contact: "Contato",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
     languageSwitcher: "Idioma",
     changeLanguage: "Mudar idioma para inglês",
+    primary: "Navegação principal",
   },
   theme: {
     enableLight: "Ativar tema claro",
@@ -91,87 +224,343 @@ const ptBR = {
     dark: "Tema escuro",
   },
   hero: {
-    availability: "Disponível para novos projetos",
+    status: "BEM-VINDO AO MEU WONDERLAND",
+    availability: "Aberto a oportunidades · Brasil, UE e Canadá",
     greeting: "Olá, eu sou",
     role: "Desenvolvedor Full Stack",
     tagline:
-      "Transformo ideias em experiências web rápidas, acessíveis e bonitas — do design ao deploy.",
+      "Construo do front ao hardware: interfaces em React, APIs em Java, ferramentas em Python e o servidor onde tudo isso roda.",
+    facts: [
+      { key: "Hoje", value: "P&D na WEG" },
+      { key: "Stack", value: "React + Java + Python" },
+      { key: "Também", value: "LLMs locais, homelab, jogos" },
+    ],
     viewProjects: "Ver projetos",
     contact: "Fale comigo",
+    downloadCv: "Baixar CV",
+    scrollHint: "Role para ver mais",
   },
   about: {
     title: "Sobre mim",
     paragraphs: [
-      "Sou desenvolvedor apaixonado por construir produtos para a web. Trabalho com React, Java, Next.js e TypeScript, com foco em código limpo, performance e boa experiência do usuário.",
-      "Sempre em busca de aprender novas tecnologias e de entregar o melhor resultado possível em cada projeto.",
+      "Sou desenvolvedor Full Stack com 5 anos de trajetória em tecnologia: comecei na infraestrutura de um hospital, passei pelo suporte e pela engenharia de dados e hoje atuo em P&D na WEG, construindo interfaces em React e ferramentas de Smart Grid e IoT sobre o protocolo LwM2M.",
+      "Esse caminho me deu instinto para depurar problemas difíceis e respeito por quem usa o sistema do outro lado. Fora do trabalho, mantenho um servidor doméstico com LLMs locais e crio ferramentas que resolvem problemas meus, como o assistente de voz Naji e o painel físico Vitals-Deck.",
     ],
     highlights: [
-      "Código limpo e testável",
-      "Foco em performance e acessibilidade",
-      "Do design ao deploy",
+      "Liderança técnica de front-end em React com Atomic Design",
+      "Do banco de dados ao deploy em produção",
+      "Engenharia de Software pela Católica SC, média 9,09",
     ],
     information: "Informações",
-    location: "Brasil",
+    location: "Jaraguá do Sul, SC · Brasil",
+    languages: "Português nativo · Inglês avançado",
     contact: "Contato",
+  },
+  experience: {
+    title: "Experiência",
+    description: "De infraestrutura a P&D: cada etapa somou uma camada ao que faço hoje.",
+    present: "atual",
+    education: "Formação",
+    grade: "média",
+    roles: {
+      "weg-rd": {
+        role: "Bolsista de P&D em Inovação Tecnológica",
+        summary:
+          "Ferramentas de Smart Grid e software para gestão de dispositivos inteligentes (IoT) sobre LwM2M.",
+        points: [
+          "Liderança técnica do front-end em React com Atomic Design, com ganho de 30% em usabilidade",
+          "Arquitetura base, padrões de código e documentação do front-end",
+          "Testes automatizados em Java com Selenium e Mockito",
+          "Levantamento e análise de requisitos com as áreas de negócio",
+        ],
+      },
+      "geovendas-dba": {
+        role: "Analista de Banco de Dados Júnior",
+        summary: "Engenharia de dados, migrações e BI para clientes da plataforma.",
+        points: [
+          "Otimização de uma integração de larga escala com 40% menos tempo de execução",
+          "Responsável técnico por todas as migrações entre bancos de dados",
+          "Views, triggers e consultas complexas para regras de negócio de clientes",
+          "Scripts em Python para automatizar fluxos repetitivos",
+        ],
+      },
+      "geovendas-support": {
+        role: "Analista de Atendimento ao Cliente",
+        summary: "Suporte aos produtos Analytics e Sales Force.",
+        points: [
+          "Análise e correção de consultas SQL em PostgreSQL, Oracle, SQL Server e Firebird",
+          "Resolução de tickets e documentação de processos",
+        ],
+      },
+      clinicorp: {
+        role: "Analista de Migração de Dados",
+        summary: "Migração de clínicas vindas de outros sistemas ou de planilhas.",
+        points: [
+          "Transformação e correção de dados com MySQL, Firebird e Excel",
+          "Ferramentas de automação em Python para o dia a dia do time",
+        ],
+      },
+      "algar-weg": {
+        role: "Técnico de Suporte",
+        summary: "Suporte técnico aos colaboradores da WEG, como terceirizado.",
+        points: [
+          "Gestão dos equipamentos de TI da região designada e atendimento VIP",
+          "Projeto de atualização do parque de máquinas",
+        ],
+      },
+      hospital: {
+        role: "Assistente de Infraestrutura",
+        summary: "Infraestrutura de TI do hospital.",
+        points: [
+          "Redes locais, computadores, impressoras e usuários da rede interna",
+          "Helpdesk e documentação de processos",
+        ],
+      },
+    },
+    schools: {
+      catolica: "Bacharelado em Engenharia de Software",
+      "senai-dev": "Técnico em Desenvolvimento de Sistemas",
+      "senai-network": "Aprendizagem Industrial em Redes",
+    },
   },
   projects: {
     title: "Projetos",
-    description: "Alguns trabalhos dos quais tenho orgulho.",
-    demo: "Demo",
-    source: "Código",
-    items: [
-      {
-        title: "Projeto Exemplo 1",
-        description:
-          "Descreva aqui o que o projeto faz, o problema que resolve e qual foi a sua responsabilidade nele.",
+    description: "Ferramentas que construí para resolver problemas reais, quase todas rodando em casa.",
+    featured: "Destaque",
+    caseStudy: "Ver estudo de caso",
+    repository: "Código",
+    live: "Ver ao vivo",
+    filterLabel: "Filtrar por skill",
+    filterAll: "Todos",
+    filtering: "Mostrando projetos com",
+    items: {
+      naji: {
+        title: "Naji",
+        tagline: "Assistente de voz que mora na bandeja do sistema.",
+        summary:
+          "Assistente de voz desktop para Windows e Linux: um atalho global abre uma barra flutuante, você fala e um LLM local responde e executa ações no computador.",
+        problem:
+          "Assistentes de voz comerciais dependem da nuvem e não controlam bem o desktop. Eu queria algo local, rápido de invocar e que não ocupasse uma janela inteira.",
+        role:
+          "Projeto pessoal, do zero: arquitetura, interface, integração com o modelo, empacotamento e testes.",
+        highlights: [
+          "Interface tray-first em PySide6: sem janela principal, só uma barra sempre no topo",
+          "Pipeline voz → texto → LLM com ferramentas → voz, usando llama.cpp em tempo real",
+          "Mais de 16 ferramentas nativas (volume, janelas, arquivos, energia, timers), com confirmação para ações destrutivas",
+          "Três modos de fala (push-to-talk, toggle e detecção de voz), wake word e interrupção por atalho",
+          "Interface em PT-BR e EN, tema claro/escuro e tokens do meu design system",
+          "Executável único para Windows com PyInstaller, autostart e testes com pytest",
+        ],
+        outcome:
+          "MVP completo em uso diário no meu computador, ligado a um servidor de LLM que roda no meu homelab.",
+        imageAlt:
+          "Barra flutuante do Naji com o avatar N, o texto 'Pode falar' e um campo para digitar mensagens",
+        galleryAlts: ["Barra do Naji em tamanho real, aguardando um comando de voz"],
+        stats: { tools: "ferramentas", platforms: "plataformas", locales: "idiomas" },
       },
-      {
-        title: "Projeto Exemplo 2",
-        description:
-          "Outro projeto importante. Inclua resultados concretos quando possível (ex.: reduziu o tempo de carregamento em 40%).",
+      "vitals-deck": {
+        title: "Vitals-Deck",
+        tagline: "Monitor físico do meu servidor, sem o software do fabricante.",
+        summary:
+          "Monitor de sistema para a mini tela TURZX de 3,5\": CPU, RAM, swap, duas GPUs, temperaturas e consumo de energia acumulado, rodando como serviço no Linux.",
+        problem:
+          "A tela só funciona com um software proprietário para Windows. Meu servidor roda Linux, então reimplementei o protocolo serial do zero.",
+        role: "Projeto pessoal: engenharia reversa do protocolo, renderização, serviço e instalador.",
+        highlights: [
+          "Protocolo serial reimplementado: comandos de 6 bytes e framebuffer RGB565 via USB CDC-ACM",
+          "Atualização só das células que mudaram, porque um frame completo leva cerca de 1,9 s a ~140 KB/s",
+          "Energia da CPU via RAPL somada à das GPUs NVIDIA, com estado persistido por dia e por mês",
+          "Ponte reversa por TCP para ligar a tela em outra máquina da rede ou do Tailscale",
+          "Instalação com unidade systemd e regra udev, configuração validada de forma estrita",
+          "195 testes automatizados e modo de preview que gera o frame em PNG sem a tela",
+        ],
+        outcome:
+          "Roda 24/7 ao lado do servidor. O print desta página foi gerado pelo próprio modo de preview, com dados reais.",
+        imageAlt:
+          "Foto da tela TURZX ao lado do servidor e o frame renderizado com medidores de CPU, RAM, swap, duas GPUs e energia",
+        galleryAlts: [
+          "Foto da tela TURZX de 3,5 polegadas em um suporte, ao lado do gabinete do servidor",
+          "Frame gerado pelo modo de preview com medidores circulares e o consumo de energia do dia e do mês",
+        ],
+        stats: { tests: "testes", throughput: "taxa serial", display: "resolução" },
       },
-      {
-        title: "Projeto Exemplo 3",
-        description:
-          "Mais um espaço para destacar um trabalho seu — apps, sites, bibliotecas ou contribuições open source.",
+      "profile-readme": {
+        title: "README do GitHub",
+        tagline: "Pixel art gerada por código e um jogo que roda no meu calendário.",
+        summary:
+          "Perfil do GitHub com painéis em pixel art gerados por scripts e um jogo em que um gatinho percorre o calendário de contribuições, atualizado todo dia por GitHub Actions.",
+        problem:
+          "O GitHub remove CSS e JavaScript do README. Para ter identidade visual, tudo precisava virar imagem, e o jogo precisava ser só SVG.",
+        role: "Projeto pessoal: arte, geradores em Python e automação.",
+        highlights: [
+          "Aurora em dithering com matriz de Bayer 8×8 e ruído periódico que emenda sem costura",
+          "Texto convertido em vetores com fontTools, para nenhum painel depender de fonte instalada",
+          "Jogo animado só com SMIL, com dados reais da API GraphQL do GitHub",
+          "Validação própria de keyTimes, porque o navegador ignora animações inválidas em silêncio",
+          "Versões clara e escura de cada painel, escolhidas pelo tema do visitante",
+        ],
+        outcome: "Gerado diariamente por um workflow; este site reaproveita a mesma linguagem visual.",
+        imageAlt:
+          "Banner em pixel art com aurora violeta, lua crescente, colinas azuis e um gatinho branco de coleira laranja, acima do nome Nicolas Conte",
+        galleryAlts: [],
+        stats: { panels: "painéis", schedule: "atualização", dependencies: "no jogo" },
       },
-    ],
+      makolindo: {
+        title: "Makolindo Game",
+        tagline: "Jogo educativo que ensina lógica de programação com humor.",
+        summary:
+          "Jogo 2D feito em equipe no terceiro semestre de Engenharia de Software: o jogador responde perguntas de programação para conseguir um emprego e sobreviver ao chefe.",
+        problem:
+          "Ensinar lógica de programação de um jeito leve para quem está começando, com quests, pontuação e vidas.",
+        role: "Desenvolvimento em equipe de três pessoas, em GameMaker Studio 2.",
+        highlights: [
+          "Roteiro com entrevista de emprego, quests por sala e cutscenes",
+          "Sistema de perguntas, pontuação e vidas",
+          "Arte e personagens em pixel art",
+        ],
+        outcome: "Versão 1.0 finalizada, publicada com licença MIT.",
+        imageAlt:
+          "Tela inicial do Makolindo em pixel art: uma rua da cidade com um hotel amarelo e a silhueta escura do personagem com chifres vermelhos",
+        galleryAlts: [],
+        stats: { team: "pessoas", stars: "estrelas", license: "licença" },
+      },
+    },
+  },
+  caseStudy: {
+    back: "Todos os projetos",
+    problem: "O problema",
+    role: "Meu papel",
+    highlights: "O que eu construí",
+    outcome: "Resultado",
+    stack: "Stack",
+    gallery: "Imagens",
+    facts: "Em números",
+    year: "Ano",
+    next: "Próximo projeto",
   },
   skills: {
     title: "Skills",
-    description: "Tecnologias e ferramentas que uso no dia a dia.",
+    description: "Tecnologias que uso no trabalho e nos meus projetos.",
+    hint: "Clique em uma skill para ver os projetos que a usam.",
+    usedIn: "Usado em",
     categories: {
-      frontend: "Frontend",
-      backend: "Backend",
-      tools: "Ferramentas",
+      frontend: "Front-end",
+      backend: "Back-end",
+      data: "Dados",
+      infra: "Infra e ferramentas",
     },
+  },
+  activity: {
+    title: "Atividade",
+    description:
+      "Meu calendário de contribuições no GitHub, regenerado todo dia: o gatinho coleta cada dia em que eu programei.",
+    alt: "Um gatinho branco corre pelo meu calendário de contribuições do GitHub, seguido por três mini gatinhos, coletando as contribuições.",
+    profile: "Ver perfil no GitHub",
+  },
+  homelab: {
+    title: "Este site roda no meu homelab",
+    description: "Dados ao vivo do servidor, os mesmos que aparecem no Vitals-Deck.",
+    uptime: "Ligado há",
+    cpu: "CPU",
+    memory: "RAM",
+    energy: "Energia",
+    today: "hoje",
+    month: "no mês",
+    updated: "Atualizado agora",
+    offline: "Sem dados do servidor no momento.",
+    days: "d",
+    hours: "h",
+    minutes: "min",
+    project: "Como funciona",
   },
   contact: {
     title: "Contato",
-    description: "Estou aberto a novas oportunidades e projetos. Vamos conversar?",
+    description:
+      "Estou aberto a vagas Full Stack, Front-end ou Back-end, no Brasil ou fora. Vamos conversar?",
+    copy: "Copiar e-mail",
+    copied: "E-mail copiado",
+    copyFailed: "Não foi possível copiar",
+    downloadCv: "Baixar CV",
+  },
+  palette: {
+    open: "Abrir paleta de comandos",
+    title: "Paleta de comandos",
+    placeholder: "Busque seções, projetos ou ações…",
+    empty: "Nada encontrado.",
+    groups: { navigate: "Navegar", projects: "Projetos", actions: "Ações", links: "Links" },
+    actions: {
+      toggleTheme: "Alternar tema claro/escuro",
+      switchLanguage: "Ver em inglês",
+      copyEmail: "Copiar e-mail",
+      downloadCv: "Baixar CV",
+    },
+    hint: "↑↓ para navegar · Enter para abrir · Esc para fechar",
+  },
+  cv: {
+    title: "Currículo",
+    description: "Currículo de Nicolas Conte, desenvolvedor Full Stack.",
+    print: "Imprimir",
+    download: "Baixar PDF",
+    otherLanguage: "English version",
+    back: "Voltar ao site",
+    summary: "Resumo",
+    experience: "Experiência",
+    education: "Formação",
+    skills: "Competências",
+    projects: "Projetos",
+    languages: "Idiomas",
+    languageList: "Português (nativo), inglês (avançado)",
+    headline: "Desenvolvedor Full Stack · React · TypeScript · Java · Python",
+    summaryText:
+      "Desenvolvedor Full Stack com 5 anos de trajetória em tecnologia (infraestrutura, suporte, dados e desenvolvimento). Em P&D na WEG, lidero o front-end em React de ferramentas de Smart Grid e IoT (LwM2M) e automatizo testes em Java. Experiência com PostgreSQL, Oracle, SQL Server e Firebird, otimização de consultas e migrações de dados.",
+  },
+  notFound: {
+    title: "Essa página fugiu",
+    description: "O gatinho procurou por todo o calendário e não encontrou nada aqui.",
+    home: "Voltar ao início",
+    projects: "Ver projetos",
   },
   footer: {
     rightsReserved: "Todos os direitos reservados.",
     backToTop: "Voltar ao topo",
+    builtWith: "Feito com Next.js e servido do meu homelab.",
+    shortcut: "para navegar",
   },
 } satisfies Dictionary;
 
 const en = {
   metadata: {
-    title: "Nicolas Conte | Portfolio",
+    title: "Nicolas Conte | Full-Stack Developer",
     description:
-      "Nicolas Conte's portfolio — a full-stack developer specializing in React, Java, Next.js, and TypeScript.",
+      "Full-stack developer in R&D at WEG. React, TypeScript, Java and Python, with 5 years across infrastructure, support, data and software development.",
+    ogAlt: "Nicolas Conte, full-stack developer. React, Java, Python and IoT.",
+    keywords: [
+      "Nicolas Conte",
+      "full-stack developer",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Java",
+      "Spring Boot",
+      "Python",
+      "IoT",
+      "portfolio",
+    ],
   },
   skipLink: "Skip to content",
   navigation: {
+    home: "Home",
     about: "About",
+    experience: "Experience",
     projects: "Projects",
     skills: "Skills",
+    activity: "Activity",
     contact: "Contact",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     languageSwitcher: "Language",
     changeLanguage: "Change language to Portuguese",
+    primary: "Main navigation",
   },
   theme: {
     enableLight: "Enable light theme",
@@ -180,68 +569,306 @@ const en = {
     dark: "Dark theme",
   },
   hero: {
-    availability: "Available for new projects",
+    status: "WELCOME TO MY WONDERLAND",
+    availability: "Open to opportunities · Brazil, EU and Canada",
     greeting: "Hi, I am",
     role: "Full-Stack Developer",
     tagline:
-      "I turn ideas into fast, accessible, and beautiful web experiences — from design to deployment.",
+      "I build from the front end down to the hardware: React interfaces, Java APIs, Python tools and the server they all run on.",
+    facts: [
+      { key: "Now", value: "R&D at WEG" },
+      { key: "Stack", value: "React + Java + Python" },
+      { key: "Also", value: "local LLMs, homelab, games" },
+    ],
     viewProjects: "View projects",
     contact: "Get in touch",
+    downloadCv: "Download CV",
+    scrollHint: "Scroll for more",
   },
   about: {
     title: "About me",
     paragraphs: [
-      "I am a developer passionate about building products for the web. I work with React, Java, Next.js, and TypeScript, focusing on clean code, performance, and a great user experience.",
-      "I am always looking to learn new technologies and deliver the best possible outcome for every project.",
+      "I am a full-stack developer with 5 years in tech: I started in a hospital's IT infrastructure, moved through support and data engineering, and now work in R&D at WEG, building React interfaces and Smart Grid and IoT tools on top of the LwM2M protocol.",
+      "That path gave me an instinct for debugging hard problems and respect for whoever is on the other side of the screen. Outside work, I run a home server with local LLMs and build tools for my own problems, like the Naji voice assistant and the Vitals-Deck hardware dashboard.",
     ],
     highlights: [
-      "Clean, testable code",
-      "Focus on performance and accessibility",
-      "From design to deployment",
+      "Front-end technical lead in React with Atomic Design",
+      "From the database to production deploys",
+      "BSc in Software Engineering, Católica SC, GPA 9.09/10",
     ],
-    information: "Information",
-    location: "Brazil",
+    information: "Details",
+    location: "Jaraguá do Sul, SC · Brazil",
+    languages: "Native Portuguese · Advanced English",
     contact: "Contact",
+  },
+  experience: {
+    title: "Experience",
+    description: "From infrastructure to R&D: every step added a layer to what I do today.",
+    present: "present",
+    education: "Education",
+    grade: "GPA",
+    roles: {
+      "weg-rd": {
+        role: "R&D Fellow, Technological Innovation",
+        summary:
+          "Smart Grid tools and software to manage intelligent IoT devices over LwM2M.",
+        points: [
+          "Front-end technical lead in React with Atomic Design, improving usability by 30%",
+          "Base architecture, code standards and documentation for the front end",
+          "Automated tests in Java with Selenium and Mockito",
+          "Requirements gathering and analysis with business teams",
+        ],
+      },
+      "geovendas-dba": {
+        role: "Junior Database Analyst",
+        summary: "Data engineering, migrations and BI for the platform's customers.",
+        points: [
+          "Optimized a large-scale integration, cutting execution time by 40%",
+          "Technical owner of every database-to-database migration",
+          "Views, triggers and complex queries for customer business rules",
+          "Python scripts to automate repetitive workflows",
+        ],
+      },
+      "geovendas-support": {
+        role: "Customer Support Analyst",
+        summary: "Support for the Analytics and Sales Force products.",
+        points: [
+          "Analyzed and fixed SQL queries on PostgreSQL, Oracle, SQL Server and Firebird",
+          "Ticket resolution and process documentation",
+        ],
+      },
+      clinicorp: {
+        role: "Data Migration Analyst",
+        summary: "Migrated dental clinics coming from other systems or spreadsheets.",
+        points: [
+          "Data transformation and cleanup with MySQL, Firebird and Excel",
+          "Python automation tools for the team's daily work",
+        ],
+      },
+      "algar-weg": {
+        role: "IT Support Technician",
+        summary: "On-site IT support for WEG employees, as a contractor.",
+        points: [
+          "Managed IT equipment for the assigned area and VIP support",
+          "Machine fleet upgrade project",
+        ],
+      },
+      hospital: {
+        role: "Infrastructure Assistant",
+        summary: "IT infrastructure for the hospital.",
+        points: [
+          "Local networks, computers, printers and internal network users",
+          "Helpdesk and process documentation",
+        ],
+      },
+    },
+    schools: {
+      catolica: "BSc in Software Engineering",
+      "senai-dev": "Technical Degree in Systems Development",
+      "senai-network": "Industrial Apprenticeship in Networking",
+    },
   },
   projects: {
     title: "Projects",
-    description: "A selection of work I am proud of.",
-    demo: "Demo",
-    source: "Code",
-    items: [
-      {
-        title: "Example Project 1",
-        description:
-          "Describe what the project does, the problem it solves, and your responsibilities in it.",
+    description: "Tools I built to solve real problems, most of them running at home.",
+    featured: "Featured",
+    caseStudy: "Read the case study",
+    repository: "Code",
+    live: "View live",
+    filterLabel: "Filter by skill",
+    filterAll: "All",
+    filtering: "Showing projects with",
+    items: {
+      naji: {
+        title: "Naji",
+        tagline: "A voice assistant that lives in the system tray.",
+        summary:
+          "Desktop voice assistant for Windows and Linux: a global hotkey opens a floating bar, you speak, and a local LLM answers and acts on your computer.",
+        problem:
+          "Commercial voice assistants depend on the cloud and barely control the desktop. I wanted something local, quick to summon, and that never takes over a whole window.",
+        role: "Personal project, from scratch: architecture, UI, model integration, packaging and tests.",
+        highlights: [
+          "Tray-first PySide6 interface: no main window, just an always-on-top bar",
+          "Voice → text → LLM with tools → voice pipeline, on llama.cpp in real time",
+          "16+ native tools (volume, windows, files, power, timers), with confirmation for destructive actions",
+          "Three speech modes (push-to-talk, toggle and voice activity), wake word and hotkey barge-in",
+          "PT-BR and EN interface, light/dark theme and my own design system tokens",
+          "Single Windows executable with PyInstaller, autostart and pytest tests",
+        ],
+        outcome:
+          "Complete MVP in daily use on my machine, wired to an LLM server running in my homelab.",
+        imageAlt:
+          "Naji's floating bar with the N avatar, the text 'Pode falar' (go ahead, speak) and a message field",
+        galleryAlts: ["Naji's bar at full size, waiting for a voice command"],
+        stats: { tools: "tools", platforms: "platforms", locales: "languages" },
       },
-      {
-        title: "Example Project 2",
-        description:
-          "Another important project. Include concrete results when possible (e.g., reduced loading time by 40%).",
+      "vitals-deck": {
+        title: "Vitals-Deck",
+        tagline: "A physical dashboard for my server, without the vendor software.",
+        summary:
+          "System monitor for the 3.5\" TURZX mini display: CPU, RAM, swap, two GPUs, temperatures and accumulated energy use, running as a Linux service.",
+        problem:
+          "The display only works with a proprietary Windows app. My server runs Linux, so I reimplemented the serial protocol from scratch.",
+        role: "Personal project: protocol reverse engineering, rendering, service and installer.",
+        highlights: [
+          "Reimplemented serial protocol: 6-byte commands and an RGB565 framebuffer over USB CDC-ACM",
+          "Redraws only the cells that changed, since a full frame takes about 1.9 s at ~140 KB/s",
+          "CPU energy from RAPL plus NVIDIA GPU power, persisted per day and per month",
+          "Reverse TCP bridge to plug the display into another machine on the LAN or Tailscale",
+          "systemd unit and udev rule installer, with strictly validated configuration",
+          "195 automated tests and a preview mode that renders the frame to PNG without the display",
+        ],
+        outcome:
+          "Runs 24/7 next to the server. The screenshot on this page came from its own preview mode, with real data.",
+        imageAlt:
+          "Photo of the TURZX display next to the server and the rendered frame with CPU, RAM, swap, two GPU and energy gauges",
+        galleryAlts: [
+          "Photo of the 3.5-inch TURZX display on a stand next to the server case",
+          "Frame rendered by preview mode with circular gauges and the day's and month's energy use",
+        ],
+        stats: { tests: "tests", throughput: "serial rate", display: "resolution" },
       },
-      {
-        title: "Example Project 3",
-        description:
-          "One more space to showcase your work — apps, websites, libraries, or open-source contributions.",
+      "profile-readme": {
+        title: "GitHub README",
+        tagline: "Code-generated pixel art and a game that runs on my calendar.",
+        summary:
+          "GitHub profile with pixel-art panels generated by scripts and a game where a kitten runs across my contribution calendar, refreshed daily by GitHub Actions.",
+        problem:
+          "GitHub strips CSS and JavaScript from READMEs. To have a visual identity, everything had to become an image, and the game had to be pure SVG.",
+        role: "Personal project: art, Python generators and automation.",
+        highlights: [
+          "Dithered aurora with an 8×8 Bayer matrix and periodic noise that tiles seamlessly",
+          "Text converted to vector paths with fontTools, so no panel depends on installed fonts",
+          "Animated game in pure SMIL, fed by real data from GitHub's GraphQL API",
+          "Custom keyTimes validation, because browsers silently ignore invalid animations",
+          "Light and dark versions of every panel, picked by the visitor's theme",
+        ],
+        outcome: "Generated daily by a workflow; this site reuses the same visual language.",
+        imageAlt:
+          "Pixel-art banner with a violet aurora, a crescent moon, blue hills and a white kitten wearing an orange collar, above the name Nicolas Conte",
+        galleryAlts: [],
+        stats: { panels: "panels", schedule: "refresh", dependencies: "in the game" },
       },
-    ],
+      makolindo: {
+        title: "Makolindo Game",
+        tagline: "An educational game that teaches programming logic with humor.",
+        summary:
+          "2D game built as a team in the third semester of Software Engineering: the player answers programming questions to land a job and survive the boss.",
+        problem:
+          "Teach programming logic in a light way to beginners, with quests, scoring and lives.",
+        role: "Team development with three people, in GameMaker Studio 2.",
+        highlights: [
+          "Story with a job interview, quests per room and cutscenes",
+          "Question, scoring and lives system",
+          "Pixel-art characters and scenes",
+        ],
+        outcome: "Version 1.0 finished and published under the MIT license.",
+        imageAlt:
+          "Makolindo's pixel-art title screen: a city street with a yellow hotel and the dark silhouette of the horned character",
+        galleryAlts: [],
+        stats: { team: "people", stars: "stars", license: "license" },
+      },
+    },
+  },
+  caseStudy: {
+    back: "All projects",
+    problem: "The problem",
+    role: "My role",
+    highlights: "What I built",
+    outcome: "Outcome",
+    stack: "Stack",
+    gallery: "Images",
+    facts: "By the numbers",
+    year: "Year",
+    next: "Next project",
   },
   skills: {
     title: "Skills",
-    description: "Technologies and tools I use every day.",
+    description: "Technologies I use at work and in my own projects.",
+    hint: "Click a skill to see the projects that use it.",
+    usedIn: "Used in",
     categories: {
-      frontend: "Frontend",
-      backend: "Backend",
-      tools: "Tools",
+      frontend: "Front end",
+      backend: "Back end",
+      data: "Data",
+      infra: "Infra and tooling",
     },
+  },
+  activity: {
+    title: "Activity",
+    description:
+      "My GitHub contribution calendar, regenerated every day: the kitten collects each day I wrote code.",
+    alt: "A small white kitten runs across my GitHub contribution calendar, followed by three mini kittens, collecting my contributions.",
+    profile: "View GitHub profile",
+  },
+  homelab: {
+    title: "This site runs in my homelab",
+    description: "Live data from the server, the same numbers shown on the Vitals-Deck.",
+    uptime: "Up for",
+    cpu: "CPU",
+    memory: "RAM",
+    energy: "Energy",
+    today: "today",
+    month: "this month",
+    updated: "Updated just now",
+    offline: "No server data right now.",
+    days: "d",
+    hours: "h",
+    minutes: "min",
+    project: "How it works",
   },
   contact: {
     title: "Contact",
-    description: "I am open to new opportunities and projects. Let’s talk?",
+    description:
+      "I am open to full-stack, front-end or back-end roles, in Brazil or abroad. Let’s talk?",
+    copy: "Copy email",
+    copied: "Email copied",
+    copyFailed: "Could not copy",
+    downloadCv: "Download CV",
+  },
+  palette: {
+    open: "Open command palette",
+    title: "Command palette",
+    placeholder: "Search sections, projects or actions…",
+    empty: "Nothing found.",
+    groups: { navigate: "Navigate", projects: "Projects", actions: "Actions", links: "Links" },
+    actions: {
+      toggleTheme: "Toggle light/dark theme",
+      switchLanguage: "View in Portuguese",
+      copyEmail: "Copy email",
+      downloadCv: "Download CV",
+    },
+    hint: "↑↓ to move · Enter to open · Esc to close",
+  },
+  cv: {
+    title: "Résumé",
+    description: "Résumé of Nicolas Conte, full-stack developer.",
+    print: "Print",
+    download: "Download PDF",
+    otherLanguage: "Versão em português",
+    back: "Back to the site",
+    summary: "Summary",
+    experience: "Experience",
+    education: "Education",
+    skills: "Skills",
+    projects: "Projects",
+    languages: "Languages",
+    languageList: "Portuguese (native), English (advanced)",
+    headline: "Full-Stack Developer · React · TypeScript · Java · Python",
+    summaryText:
+      "Full-stack developer with 5 years in tech (infrastructure, support, data and software development). In R&D at WEG, I lead the React front end of Smart Grid and IoT (LwM2M) tools and automate tests in Java. Experienced with PostgreSQL, Oracle, SQL Server and Firebird, query optimization and data migrations.",
+  },
+  notFound: {
+    title: "This page ran away",
+    description: "The kitten searched the whole calendar and found nothing here.",
+    home: "Back to home",
+    projects: "See projects",
   },
   footer: {
     rightsReserved: "All rights reserved.",
     backToTop: "Back to top",
+    builtWith: "Built with Next.js and served from my homelab.",
+    shortcut: "to navigate",
   },
 } satisfies Dictionary;
 
@@ -252,4 +879,22 @@ const dictionaries: Record<Locale, Dictionary> = {
 
 export function getDictionary(locale: Locale) {
   return dictionaries[locale];
+}
+
+/** Formats an ISO month ("2025-02") as a short localized month and year. */
+export function formatMonth(locale: Locale, isoMonth: string) {
+  const [year, month] = isoMonth.split("-").map(Number);
+  return new Intl.DateTimeFormat(locale, {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
+}
+
+/** Formats a 0–10 grade with the locale decimal separator, keeping at least one decimal ("8,0"). */
+export function formatGrade(locale: Locale, grade: number) {
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 2,
+  }).format(grade);
 }

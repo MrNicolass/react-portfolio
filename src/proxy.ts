@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
-
-const LOCALE_COOKIE = "NEXT_LOCALE";
+import { LOCALE_COOKIE } from "@/lib/locale";
 
 /**
  * Detects the preferred locale from the Accept-Language header.

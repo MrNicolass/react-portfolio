@@ -1,0 +1,17 @@
+{
+  "width": 2560,
+  "height": 200,
+  "cell": 8,
+  "cats": {
+    "mobile": {
+      "offset": 24,
+      "top": 48,
+      "size": 128
+    },
+    "desktop": {
+      "offset": 320,
+      "top": 56,
+      "size": 128
+    }
+  }
+}

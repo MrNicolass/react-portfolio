@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+  /* Pixel scene (same palette as the GitHub profile README). */
+  --scene-sky: #f6f8fa;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --scene-sky: #0a0d12;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-geist-pixel-square);
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: rgb(139 92 246 / 0.3);
+}
+
+/* ---------- Scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Without JavaScript the content must still be visible. */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Hero ---------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- Pixel scene ---------- */
+
+.pixel {
+  image-rendering: pixelated;
+}
+
+/* Aurora tile is 896px wide; moving in 112 steps of 8px keeps the "blocky" motion of the README. */
+@keyframes aurora-drift {
+  to {
+    background-position-x: -896px;
+  }
+}
+
+.aurora {
+  background-image: url("/pixel/aurora-light.png");
+  background-repeat: repeat-x;
+  background-size: 896px 200px;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  animation: aurora-drift 120s steps(112) infinite;
+}
+
+.dark .aurora {
+  background-image: url("/pixel/aurora-dark.png");
+}
+
+.scene {
+  background-image: url("/pixel/scene-light.png");
+  background-repeat: repeat-x;
+  background-size: 2560px 200px;
+  background-position: center 0;
+  image-rendering: pixelated;
+}
+
+.dark .scene {
+  background-image: url("/pixel/scene-dark.png");
+}
+
+@keyframes cat-blink {
+  0%,
+  94% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cat-blink {
+  animation: cat-blink 5s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1.1s steps(1) infinite;
+}
+
+/* ---------- Activity (contribution game) ---------- */
+
+/* Follows the site theme (`.dark`); `<source media>` could only follow the system one. */
+.activity-light {
+  display: block;
+}
+
+.activity-dark {
+  display: none;
+}
+
+.dark .activity-dark {
+  display: block;
+}
+
+.dark .activity-light {
+  display: none;
+}
+
+/* ---------- Command palette ---------- */
+
+dialog.palette {
+  margin: 12vh auto auto;
+  max-height: 70vh;
+}
+
+dialog.palette::backdrop {
+  background: rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/* ---------- CV sheet ---------- */
+
+/* Always light, on screen and on paper, so the PDF matches what the visitor sees. */
+.cv-sheet {
+  --background: #ffffff;
+  --foreground: #18181b;
+  color-scheme: light;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- Print (CV page) ---------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 14mm 12mm;
+  }
+
+  /* The theme script sets `color-scheme: dark` inline; on paper it would paint the page margins dark. */
+  html {
+    color-scheme: light !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #18181b !important;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+/* ---------- Accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-fade-up,
+  .aurora,
+  .cat-blink,
+  .cursor-blink {
+    animation: none;
+  }
+}

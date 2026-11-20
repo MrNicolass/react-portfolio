@@ -9,7 +9,7 @@ export default function ScrollProgress() {
   useScrollThrottle((p) => setProgress(p));
 
   return (
-    <div aria-hidden="true" className="fixed inset-x-0 top-0 z-[60] h-0.5">
+    <div aria-hidden="true" className="print-hidden fixed inset-x-0 top-0 z-[60] h-0.5">
       <div
         className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500"
         style={{ width: `${progress}%` }}

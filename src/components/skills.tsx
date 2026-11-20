@@ -1,40 +1,60 @@
-import type { skillGroups } from "@/data/portfolio";
+import { projectSkills, skillLabels, type Project, type skillGroups } from "@/data/portfolio";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { sections } from "@/lib/site";
 import Reveal from "./reveal";
 import SectionHeading from "./section-heading";
-import { CheckIcon } from "./icons";
-
-type SkillGroup = (typeof skillGroups)[number] & { category: string };
+import SkillFilterButton from "./skill-filter-button";
 
 type SkillsProps = {
   content: Dictionary["skills"];
-  groups: readonly SkillGroup[];
+  groups: typeof skillGroups;
+  projects: readonly Project[];
+  projectTitles: Dictionary["projects"]["items"];
 };
 
-export default function Skills({ content, groups }: SkillsProps) {
+export default function Skills({ content, groups, projects, projectTitles }: SkillsProps) {
+  const usage = new Map(projectSkills(projects).map((skill) => [skill.id, skill.projects]));
+
   return (
-    <section id="skills" className="py-24 sm:py-32">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <SectionHeading
-          index="03"
-          title={content.title}
-          description={content.description}
-        />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <section id={sections.skills} className="py-24 sm:py-32">
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <SectionHeading index="04" title={content.title} description={content.description} />
+        <Reveal>
+          <p className="mt-3 flex items-center gap-2 text-sm text-foreground/60">
+            <span aria-hidden="true" className="size-2 shrink-0 bg-violet-500" />
+            {content.hint}
+          </p>
+        </Reveal>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {groups.map((group, index) => (
-            <Reveal key={group.id} delay={index * 100} className="h-full">
-              <div className="h-full rounded-2xl border border-black/10 bg-white p-6 transition-colors duration-300 hover:border-violet-400/60 dark:border-white/10 dark:bg-white/5 dark:hover:border-violet-400/40">
-                <h3 className="font-semibold">{group.category}</h3>
+            <Reveal key={group.id} delay={(index % 2) * 100} className="h-full">
+              <div className="h-full rounded-2xl border border-black/10 bg-white/60 p-6 dark:border-white/10 dark:bg-white/5">
+                <h3 className="font-pixel text-sm text-foreground/50">
+                  {content.categories[group.id]}
+                </h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
-                  {group.items.map((skill) => (
-                    <li
-                      key={skill}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs font-medium text-foreground/80 dark:bg-white/10 dark:text-foreground/80"
-                    >
-                      <CheckIcon className="size-3 text-violet-500 dark:text-violet-400" />
-                      {skill}
-                    </li>
-                  ))}
+                  {group.items.map((skill) => {
+                    const slugs = usage.get(skill);
+                    return (
+                      <li key={skill} className="flex">
+                        {slugs ? (
+                          <SkillFilterButton
+                            skill={skill}
+                            label={skillLabels[skill]}
+                            count={slugs.length}
+                            usedIn={`${content.usedIn} ${slugs
+                              .map((slug) => projectTitles[slug].title)
+                              .join(", ")}`}
+                          />
+                        ) : (
+                          <span className="rounded-full border border-transparent bg-black/5 px-3 py-1 text-xs font-medium text-foreground/70 dark:bg-white/10">
+                            {skillLabels[skill]}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </Reveal>

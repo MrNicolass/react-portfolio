@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { toggleTheme } from "@/lib/theme";
 import { MoonIcon, SunIcon } from "./icons";
 
 /** Observa mudanças na classe `dark` do <html>. */
@@ -29,20 +30,10 @@ export default function ThemeToggle({
 }) {
   const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const toggle = useCallback(() => {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={toggleTheme}
       aria-label={dark ? labels.enableLight : labels.enableDark}
       title={dark ? labels.light : labels.dark}
       className="flex size-9 items-center justify-center rounded-full border border-black/10 text-foreground/70 transition-colors hover:bg-black/5 hover:text-foreground dark:border-white/15 dark:hover:bg-white/10 dark:hover:text-foreground"
