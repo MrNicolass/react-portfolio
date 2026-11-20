@@ -58,6 +58,7 @@ export type Dictionary = {
     contact: string;
     downloadCv: string;
     scrollHint: string;
+    portrait: { alt: string; reveal: string; hint: string };
   };
   about: {
     title: string;
@@ -233,12 +234,17 @@ const ptBR = {
     facts: [
       { key: "Hoje", value: "P&D na WEG" },
       { key: "Stack", value: "React + Java + Python" },
-      { key: "Também", value: "LLMs locais, homelab, jogos" },
+      { key: "Também", value: "LLMs locais, homelab, pixel art" },
     ],
     viewProjects: "Ver projetos",
     contact: "Fale comigo",
     downloadCv: "Baixar CV",
     scrollHint: "Role para ver mais",
+    portrait: {
+      alt: "Retrato de Nicolas Conte em pixel art violeta: cabelo escuro ondulado, barba e camiseta branca",
+      reveal: "Revelar a foto real",
+      hint: "passe o mouse ou toque",
+    },
   },
   about: {
     title: "Sobre mim",
@@ -405,24 +411,27 @@ const ptBR = {
         galleryAlts: [],
         stats: { panels: "painéis", schedule: "atualização", dependencies: "no jogo" },
       },
-      makolindo: {
-        title: "Makolindo Game",
-        tagline: "Jogo educativo que ensina lógica de programação com humor.",
+      imconte: {
+        title: "imconte.com",
+        tagline: "Este site: meu cartão profissional, feito do zero e hospedado em casa.",
         summary:
-          "Jogo 2D feito em equipe no terceiro semestre de Engenharia de Software: o jogador responde perguntas de programação para conseguir um emprego e sobreviver ao chefe.",
+          "Portfólio bilíngue em Next.js 16 e React 19, com estudos de caso, CV para impressão, paleta de comandos e uma identidade em pixel art gerada por código, servido pelo meu homelab.",
         problem:
-          "Ensinar lógica de programação de um jeito leve para quem está começando, com quests, pontuação e vidas.",
-        role: "Desenvolvimento em equipe de três pessoas, em GameMaker Studio 2.",
+          "Eu queria um lugar só meu para mostrar o trabalho, que carregasse rápido, fosse acessível, aparecesse bem no Google e no LinkedIn e tivesse a minha cara, sem depender de construtor de sites.",
+        role: "Projeto pessoal: design, código, conteúdo, SEO e infraestrutura.",
         highlights: [
-          "Roteiro com entrevista de emprego, quests por sala e cutscenes",
-          "Sistema de perguntas, pontuação e vidas",
-          "Arte e personagens em pixel art",
+          "App Router com Server Components e componentes cliente só onde há interação",
+          "Português e inglês com rotas por idioma, hreflang, sitemap e imagens de compartilhamento geradas por idioma e por projeto",
+          "Tema claro/escuro sem piscar, aplicado antes da primeira pintura",
+          "Paleta de comandos Ctrl+K acessível por teclado e CV que vira PDF direto do navegador",
+          "Retrato e aurora em dithering com matriz de Bayer, que respeitam a preferência por movimento reduzido",
+          "Servido por systemd no meu servidor, atrás do Cloudflare",
         ],
-        outcome: "Versão 1.0 finalizada, publicada com licença MIT.",
+        outcome: "No ar em imconte.com; cada página tem imagem própria ao ser compartilhada.",
         imageAlt:
-          "Tela inicial do Makolindo em pixel art: uma rua da cidade com um hotel amarelo e a silhueta escura do personagem com chifres vermelhos",
+          "Página inicial do imconte.com com o nome Nicolas Conte em fonte pixel, o cargo Desenvolvedor Full Stack e o retrato em dithering violeta",
         galleryAlts: [],
-        stats: { team: "pessoas", stars: "estrelas", license: "licença" },
+        stats: { framework: "framework", locales: "idiomas", hosting: "hospedagem" },
       },
     },
   },
@@ -578,12 +587,17 @@ const en = {
     facts: [
       { key: "Now", value: "R&D at WEG" },
       { key: "Stack", value: "React + Java + Python" },
-      { key: "Also", value: "local LLMs, homelab, games" },
+      { key: "Also", value: "local LLMs, homelab, pixel art" },
     ],
     viewProjects: "View projects",
     contact: "Get in touch",
     downloadCv: "Download CV",
     scrollHint: "Scroll for more",
+    portrait: {
+      alt: "Pixel-art portrait of Nicolas Conte in violet: wavy dark hair, a beard and a white T-shirt",
+      reveal: "Reveal the real photo",
+      hint: "hover or tap",
+    },
   },
   about: {
     title: "About me",
@@ -749,24 +763,27 @@ const en = {
         galleryAlts: [],
         stats: { panels: "panels", schedule: "refresh", dependencies: "in the game" },
       },
-      makolindo: {
-        title: "Makolindo Game",
-        tagline: "An educational game that teaches programming logic with humor.",
+      imconte: {
+        title: "imconte.com",
+        tagline: "This site: my professional card, built from scratch and hosted at home.",
         summary:
-          "2D game built as a team in the third semester of Software Engineering: the player answers programming questions to land a job and survive the boss.",
+          "Bilingual portfolio in Next.js 16 and React 19, with case studies, a printable CV, a command palette and a code-generated pixel-art identity, served from my homelab.",
         problem:
-          "Teach programming logic in a light way to beginners, with quests, scoring and lives.",
-        role: "Team development with three people, in GameMaker Studio 2.",
+          "I wanted a place of my own to show my work: fast, accessible, well presented on Google and LinkedIn, and with my own look, without a site builder.",
+        role: "Personal project: design, code, content, SEO and infrastructure.",
         highlights: [
-          "Story with a job interview, quests per room and cutscenes",
-          "Question, scoring and lives system",
-          "Pixel-art characters and scenes",
+          "App Router with Server Components, and client components only where there is interaction",
+          "Portuguese and English with per-locale routes, hreflang, a sitemap and share images generated per locale and per project",
+          "Light and dark themes with no flash, applied before the first paint",
+          "Keyboard-accessible Ctrl+K command palette and a CV that prints to PDF straight from the browser",
+          "Portrait and aurora dithered with a Bayer matrix, honoring the reduced-motion preference",
+          "Served by systemd on my own server, behind Cloudflare",
         ],
-        outcome: "Version 1.0 finished and published under the MIT license.",
+        outcome: "Live at imconte.com; every page has its own share image.",
         imageAlt:
-          "Makolindo's pixel-art title screen: a city street with a yellow hotel and the dark silhouette of the horned character",
+          "imconte.com home page with the name Nicolas Conte in a pixel font, the Full-Stack Developer title and the violet dithered portrait",
         galleryAlts: [],
-        stats: { team: "people", stars: "stars", license: "license" },
+        stats: { framework: "framework", locales: "languages", hosting: "hosting" },
       },
     },
   },

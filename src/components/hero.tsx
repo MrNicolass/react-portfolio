@@ -2,7 +2,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { localePath, sections } from "@/lib/site";
 import { ArrowUpRightIcon, DownloadIcon } from "./icons";
-import PixelBand from "./pixel-band";
+import PixelPortrait from "./pixel-portrait";
 import SectionLink from "./section-link";
 
 type HeroProps = {
@@ -29,16 +29,14 @@ export default function Hero({ locale, name, handle, content }: HeroProps) {
             </span>
             {content.status}
           </span>
-          <span className="hidden normal-case tracking-normal sm:inline">github.com/{handle}</span>
+          <span className="hidden normal-case tracking-normal sm:inline">
+            github.com/{handle}
+          </span>
         </div>
       </div>
 
-      <div className="animate-fade-up mt-5" style={{ animationDelay: "80ms" }}>
-        <PixelBand />
-      </div>
-
-      <div className="mx-auto w-full max-w-5xl px-4 pt-10 pb-20 sm:px-6 sm:pb-28">
-        <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-end lg:gap-14">
+      <div className="mx-auto w-full max-w-5xl px-4 pt-8 pb-20 sm:px-6 sm:pt-12 sm:pb-28">
+        <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-center lg:gap-14">
           <div>
             <div
               className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-4 py-1.5 text-xs font-medium text-foreground/80 dark:border-white/15 dark:bg-white/5"
@@ -77,53 +75,71 @@ export default function Hero({ locale, name, handle, content }: HeroProps) {
             >
               {content.tagline}
             </p>
+            <div
+              className="animate-fade-up mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
+              style={{ animationDelay: "420ms" }}
+            >
+              <SectionLink
+                section="projects"
+                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-lg shadow-black/10 transition-all hover:-translate-y-0.5 hover:shadow-xl dark:shadow-white/5"
+              >
+                {content.viewProjects}
+                <ArrowUpRightIcon className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </SectionLink>
+              <a
+                href={localePath(locale, "cv")}
+                className="inline-flex items-center gap-2 rounded-full border border-black/15 px-6 py-3 text-sm font-semibold transition-colors hover:border-violet-400/60 hover:bg-black/5 dark:border-white/15 dark:hover:border-violet-400/40 dark:hover:bg-white/10"
+              >
+                <DownloadIcon className="size-4" />
+                {content.downloadCv}
+              </a>
+              <SectionLink
+                section="contact"
+                className="rounded-full px-4 py-3 text-sm font-semibold text-foreground/70 transition-colors hover:text-violet-600 dark:hover:text-violet-400"
+              >
+                {content.contact}
+              </SectionLink>
+            </div>
           </div>
-
-          <dl
-            className="animate-fade-up rounded-2xl border border-black/10 bg-white/60 p-5 font-mono text-sm dark:border-white/10 dark:bg-white/5"
+          <div
+            className="animate-fade-up mx-auto w-full max-w-sm lg:max-w-none"
             style={{ animationDelay: "380ms" }}
           >
-            {content.facts.map((fact) => (
-              <div key={fact.key} className="flex items-baseline gap-2 py-1.5">
-                <dt className="shrink-0 text-violet-600 dark:text-violet-400">.{fact.key}:</dt>
-                <span
+            <PixelPortrait
+              alt={content.portrait.alt}
+              revealLabel={content.portrait.reveal}
+              hint={content.portrait.hint}
+            >
+              <div className="border-t border-black/10 p-5 dark:border-white/10">
+                <dl>
+                  {content.facts.map((fact) => (
+                    <div
+                      key={fact.key}
+                      className="flex items-baseline gap-2 py-1.5"
+                    >
+                      <dt className="shrink-0 text-violet-600 dark:text-violet-400">
+                        .{fact.key}:
+                      </dt>
+                      <span
+                        aria-hidden="true"
+                        className="min-w-4 flex-1 translate-y-[-3px] border-b border-dotted border-foreground/25"
+                      />
+                      <dd className="text-right text-foreground/85">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <p
                   aria-hidden="true"
-                  className="min-w-4 flex-1 translate-y-[-3px] border-b border-dotted border-foreground/25"
-                />
-                <dd className="text-right text-foreground/85">{fact.value}</dd>
+                  className="mt-2 flex items-center gap-2 text-violet-500"
+                >
+                  <span>›</span>
+                  <span className="cursor-blink inline-block h-4 w-2 bg-violet-500" />
+                </p>
               </div>
-            ))}
-            <p aria-hidden="true" className="mt-2 flex items-center gap-2 text-violet-500">
-              <span>›</span>
-              <span className="cursor-blink inline-block h-4 w-2 bg-violet-500" />
-            </p>
-          </dl>
-        </div>
-
-        <div
-          className="animate-fade-up mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
-          style={{ animationDelay: "420ms" }}
-        >
-          <SectionLink
-            section="projects"
-            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-lg shadow-black/10 transition-all hover:-translate-y-0.5 hover:shadow-xl dark:shadow-white/5"
-          >
-            {content.viewProjects}
-            <ArrowUpRightIcon className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </SectionLink>
-          <a
-            href={localePath(locale, "cv")}
-            className="inline-flex items-center gap-2 rounded-full border border-black/15 px-6 py-3 text-sm font-semibold transition-colors hover:border-violet-400/60 hover:bg-black/5 dark:border-white/15 dark:hover:border-violet-400/40 dark:hover:bg-white/10"
-          >
-            <DownloadIcon className="size-4" />
-            {content.downloadCv}
-          </a>
-          <SectionLink
-            section="contact"
-            className="rounded-full px-4 py-3 text-sm font-semibold text-foreground/70 transition-colors hover:text-violet-600 dark:hover:text-violet-400"
-          >
-            {content.contact}
-          </SectionLink>
+            </PixelPortrait>
+          </div>
         </div>
       </div>
     </section>

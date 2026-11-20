@@ -1,5 +1,6 @@
 import type { StaticImageData } from "next/image";
-import makolindoCover from "@/assets/projects/makolindo-cover.webp";
+import imconteCoverDark from "@/assets/projects/imconte-cover-dark.webp";
+import imconteCoverLight from "@/assets/projects/imconte-cover-light.webp";
 import najiBar from "@/assets/projects/naji-bar.png";
 import najiCoverDark from "@/assets/projects/naji-cover-dark.webp";
 import najiCoverLight from "@/assets/projects/naji-cover-light.webp";
@@ -55,8 +56,7 @@ export type SkillId =
   | "systemd"
   | "githubactions"
   | "git"
-  | "testing"
-  | "gamemaker";
+  | "testing";
 
 export const skillLabels: Record<SkillId, string> = {
   react: "React",
@@ -86,7 +86,6 @@ export const skillLabels: Record<SkillId, string> = {
   githubactions: "GitHub Actions",
   git: "Git",
   testing: "Selenium · Mockito · pytest",
-  gamemaker: "GameMaker (GML)",
 };
 
 export type SkillGroupId = "frontend" | "backend" | "data" | "infra";
@@ -110,7 +109,7 @@ export const skillGroups: readonly { id: SkillGroupId; items: readonly SkillId[]
   },
 ];
 
-export type ProjectSlug = "naji" | "vitals-deck" | "profile-readme" | "makolindo";
+export type ProjectSlug = "naji" | "vitals-deck" | "imconte" | "profile-readme";
 
 export type ProjectImage = {
   /** Shown in light theme, or in both themes when `dark` is absent. */
@@ -168,6 +167,22 @@ export const projects: readonly Project[] = [
     ],
   },
   {
+    slug: "imconte",
+    year: "2026",
+    kind: "Web · Next.js",
+    skills: ["react", "nextjs", "typescript", "tailwind", "systemd"],
+    repository: "https://github.com/MrNicolass/react-portfolio",
+    live: "https://imconte.com",
+    featured: false,
+    cover: { light: imconteCoverLight, dark: imconteCoverDark },
+    gallery: [],
+    stats: [
+      { id: "framework", value: "Next 16" },
+      { id: "locales", value: "PT · EN" },
+      { id: "hosting", value: "Homelab" },
+    ],
+  },
+  {
     slug: "profile-readme",
     year: "2026",
     kind: "Generative art · CI",
@@ -181,21 +196,6 @@ export const projects: readonly Project[] = [
       { id: "panels", value: "30 SVG" },
       { id: "schedule", value: "24 h" },
       { id: "dependencies", value: "0 JS" },
-    ],
-  },
-  {
-    slug: "makolindo",
-    year: "2023",
-    kind: "Educational game",
-    skills: ["gamemaker"],
-    repository: "https://github.com/MrNicolass/Makolindo-Game",
-    featured: false,
-    cover: { light: makolindoCover },
-    gallery: [],
-    stats: [
-      { id: "team", value: "3" },
-      { id: "stars", value: "3 ★" },
-      { id: "license", value: "MIT" },
     ],
   },
 ];
