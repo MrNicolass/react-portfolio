@@ -46,7 +46,12 @@ export default async function LocaleHome({ params }: PageProps<"/[locale]">) {
           projects={projects}
           projectTitles={dictionary.projects.items}
         />
-        <Activity content={dictionary.activity} profile={profile} />
+        <Activity
+          locale={locale}
+          content={dictionary.activity}
+          homelab={dictionary.homelab}
+          profile={profile}
+        />
         <Contact locale={locale} profile={profile} content={dictionary.contact} />
       </main>
       <Footer profile={profile} content={dictionary.footer} />

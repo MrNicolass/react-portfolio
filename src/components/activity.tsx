@@ -1,13 +1,17 @@
 import type { profile } from "@/data/portfolio";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { activitySize, activityStillPath, activityThemes } from "@/lib/activity";
 import { sections } from "@/lib/site";
+import Homelab from "./homelab";
 import { ArrowUpRightIcon, GithubIcon } from "./icons";
 import Reveal from "./reveal";
 import SectionHeading from "./section-heading";
 
 type ActivityProps = {
+  locale: Locale;
   content: Dictionary["activity"];
+  homelab: Dictionary["homelab"];
   profile: typeof profile;
 };
 
@@ -18,7 +22,7 @@ type ActivityProps = {
  * `<source>` swaps in the still frame under `prefers-reduced-motion`. Both images are lazy,
  * so the hidden one is never downloaded.
  */
-export default function Activity({ content, profile }: ActivityProps) {
+export default function Activity({ locale, content, homelab, profile }: ActivityProps) {
   return (
     <section id={sections.activity} className="py-24 sm:py-32">
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
@@ -50,6 +54,10 @@ export default function Activity({ content, profile }: ActivityProps) {
             {content.profile}
             <ArrowUpRightIcon className="size-4" />
           </a>
+        </Reveal>
+
+        <Reveal>
+          <Homelab locale={locale} content={homelab} />
         </Reveal>
       </div>
     </section>
